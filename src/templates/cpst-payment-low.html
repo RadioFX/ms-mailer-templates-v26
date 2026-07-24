@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Cappasity Tokensale - Action Required</title>
+  <link href="../css/mailgun.css" media="all" rel="stylesheet" type="text/css" inline />
+</head>
+<body itemscope itemtype="http://schema.org/EmailMessage">
+  <table class="body-wrap">
+  	<tr>
+  		<td></td>
+  		<td class="container" width="600">
+  			<div class="content">
+  				<table class="main" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope itemtype="http://schema.org/ConfirmAction">
+  					<tr>
+  						<td class="content-wrap">
+  							<meta itemprop="name" content="Confirm Email"/>
+  							<table width="100%" cellpadding="0" cellspacing="0">
+  								<tr>
+  									<td class="content-block">
+                      <p style="text-align: center;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%; margin-bottom: 30px;">
+                        <img src="https://cdn.cappasity.com/artoken/logo.png" width="50" alt="cappasity logo" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;">
+                      </p>
+                      <h2>Ineligible Transaction - Action Required</h2>
+                      <br/>
+                      <p>
+                        Transaction <b>{{ txId }}</b> of <b>${{ usdAmount }}</b> that you've deposited <b>{{ time }}</b> is
+                        too low to be accepted by the system. Your current balance including transactions over 1 confirmation
+                        on wallet <b>{{ wallet }}</b> is <b>${{ walletBalance }}</b>.
+                      </p>
+                      <p>
+                        {{#if topUp}}
+                        To qualify, please top up your wallet for <b>${{ topUp }}</b> and drop a note to <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a>.
+                        Please note that we are only able to consolidate transactions on the same BTC or ETH wallet.
+                        {{ else }}
+                        Please drop a note to <a href="mailto:{{ supportEmail }}?subject=Consolidate%20{{ wallet }}">{{ supportEmail }}</a> if you want us to consolidate
+                        your transactions
+                        {{/if}}
+                      </p>
+                      <p>
+                        You may reply to this email directly in case you still have any questions or need help
+                      </p>
+  									</td>
+  								</tr>
+  								<tr>
+  									<td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler">
+  										<a href="https://tokensale.cappasity.com" class="btn-primary" itemprop="url">Cappasity Tokensale Portal</a>
+  									</td>
+  								</tr>
+  								<tr>
+  									<td class="content-block">
+  										&mdash; Cappasity Team
+  									</td>
+  								</tr>
+  							</table>
+  						</td>
+  					</tr>
+  				</table>
+  				<div class="footer">
+  					<table width="100%">
+  						<tr>
+  							<td class="aligncenter content-block">Follow <a href="https://twitter.com/cappasity">@Cappasity</a> on Twitter.</td>
+  						</tr>
+  					</table>
+  				</div></div>
+  		</td>
+  		<td></td>
+  	</tr>
+  </table>
+</body>
+</html>

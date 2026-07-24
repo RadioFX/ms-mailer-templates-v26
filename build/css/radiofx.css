@@ -1,0 +1,79 @@
+.header-padding {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.section-padding {
+  padding-top: 40px;
+}
+
+p {
+  font-size: 16px;
+  color: rgb(0, 0, 0);
+}
+
+.cappasity-hero {
+  color: rgb(0, 0, 0);
+  font-size: 24px;
+}
+
+.cappasity-accent {
+  color: rgb(74, 144, 226)
+}
+
+.cappasity-subtle {
+  font-size: 12px;
+  color: rgb(155, 155, 155);
+}
+
+.rfx-button {
+  background-color: rgb(74, 144, 226);
+  display: inline-block;
+  color: rgb(255, 255, 255);
+  text-transform: uppercase;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.rfx-button:active, .rfx-button:focus, .rfx-button:hover, .rfx-button:visited {
+  color: rgb(255, 255, 255) !important;
+}
+
+.rfx-button:hover {
+  background-color: rgb(39, 75, 135);
+}
+
+address {
+  font-style: normal;
+}
+
+.social {
+  text-align: right;
+  height: 100%;
+}
+
+.social > a {
+  display: inline-block;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.social > a > img {
+  border-radius: 6px;
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.model-preview {
+  max-width: 458px;
+}
+
+@media only screen and (max-width: 600px) {
+  table[class="container"] .block-grid td {
+    width: 100% !important;
+    padding-right: 0;
+    padding-left: 0;
+  }
+}

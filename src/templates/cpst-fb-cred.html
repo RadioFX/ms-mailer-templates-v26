@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Cappasity Token - Facebook Recovery</title>
+  <link href="../css/mailgun.css" media="all" rel="stylesheet" type="text/css" inline />
+</head>
+<body itemscope itemtype="http://schema.org/EmailMessage">
+  <table class="body-wrap">
+  	<tr>
+  		<td></td>
+  		<td class="container" width="600">
+  			<div class="content">
+  				<table class="main" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope itemtype="http://schema.org/ConfirmAction">
+  					<tr>
+  						<td class="content-wrap">
+  							<meta itemprop="name" content="Password Recovery"/>
+  							<table width="100%" cellpadding="0" cellspacing="0">
+  								<tr>
+  									<td class="content-block">
+                      Dear {{ name }},
+  									</td>
+  								</tr>
+  								<tr>
+  									<td class="content-block">
+                      Unfortunately, it appears that Facebook blocked the auth0 FB login url and we have moved
+                      all our FB accounts to the new login system. This email contains your new login and password to
+                      access your account
+  									</td>
+  								</tr>
+                  <tr>
+                    <td class="content-block">
+                      Your new login: <b>{{ login }}</b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="content-block">
+                      Your new password: <b>{{ password }}</b>
+                    </td>
+                  </tr>
+                  <tr>
+  									<td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler">
+  										<a href="https://tokensale.cappasity.com" class="btn-primary" itemprop="url">sign in</a>
+  									</td>
+  								</tr>
+  								<tr>
+  									<td class="content-block">
+  										&mdash; Cappasity Tokensale Team
+  									</td>
+  								</tr>
+  							</table>
+  						</td>
+  					</tr>
+  				</table>
+  				<div class="footer">
+  					<table width="100%">
+  						<tr>
+  							<td class="aligncenter content-block">Follow <a href="https://twitter.com/cappasity">@Cappasity</a> on Twitter.</td>
+  						</tr>
+  					</table>
+  				</div></div>
+  		</td>
+  		<td></td>
+  	</tr>
+  </table>
+</body>
+</html>

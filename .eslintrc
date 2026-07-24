@@ -1,0 +1,14 @@
+{
+  "extends": "makeomatic",
+  "parser": "babel-eslint",
+  "plugins": [
+    "mocha"
+  ],
+  "env": {
+    "mocha": true
+  },
+  "rules": {
+    "prefer-arrow-callback": 0,
+    "max-len": [2, 150]
+  }
+}

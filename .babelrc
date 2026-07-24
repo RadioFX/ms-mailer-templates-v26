@@ -1,0 +1,11 @@
+{
+  "plugins": [
+    "@babel/plugin-transform-spread",
+    "@babel/plugin-transform-destructuring",
+    "@babel/plugin-transform-strict-mode",
+    "@babel/plugin-transform-parameters",
+    "@babel/plugin-transform-shorthand-properties",
+    "@babel/plugin-transform-object-rest-spread",
+    "@babel/plugin-transform-class-properties"
+  ]
+}
