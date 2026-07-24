@@ -6,9 +6,9 @@
   "scripts": {
     "build": "gulp production",
     "compile": "babel ./src -d ./lib",
-    "prepublish": "npm run build && npm run compile",
     "lint": "eslint ./src",
-    "test": "npm run lint && npm run build && NODE_ENV=test mocha"
+    "test": "npm run lint && npm run build && NODE_ENV=test mocha",
+    "manual-build": "npm run build && npm run compile"
   },
   "repository": {
     "type": "git",
