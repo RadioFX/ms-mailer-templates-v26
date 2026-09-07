@@ -1,7 +1,7 @@
 {
   "name": "ms-mailer-templates-v26",
   "description": "RadioFX v26 email templates for the mailer microservice. Own copy of the templates package, no longer tracking the upstream makeomatic/ms-mailer-templates project. Consumed as a git dependency (build/ and lib/ are committed, not published to npm).",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "main": "./lib/index.js",
   "scripts": {
     "build": "gulp production",
