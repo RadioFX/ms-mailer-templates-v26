@@ -1,6 +1,6 @@
 {
-  "name": "ms-mailer-templates-v26",
-  "description": "RadioFX v26 email templates for the mailer microservice. Own copy of the templates package, no longer tracking the upstream makeomatic/ms-mailer-templates project. Consumed as a git dependency (build/ and lib/ are committed, not published to npm).",
+  "name": "@radiofx/ms-mailer-templates-v26",
+  "description": "RadioFX v26 email templates for the mailer microservice. Own copy of the templates package, no longer tracking the upstream makeomatic/ms-mailer-templates project. Published to a private GCP Artifact Registry npm repo per environment (see .github/workflows/publish.yml) - build/ and lib/ stay committed too, for local dev/testing without a registry round-trip.",
   "version": "1.0.0",
   "main": "./lib/index.js",
   "scripts": {

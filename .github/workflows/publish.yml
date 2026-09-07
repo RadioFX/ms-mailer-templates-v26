@@ -1,0 +1,203 @@
+# ---------------------------------------------------------------
+# ms-mailer-templates-v26 — Publish Workflow (dev / preprod / prod)
+#
+# This package never runs as a service (no Docker image, no Helm chart,
+# no K8s deploy) - it's a template/render-helper library other services
+# depend on. This workflow's only job is `npm publish` to the right
+# Artifact Registry npm repo, using the same Workload Identity auth every
+# other v26 repo's Deploy workflow already uses.
+#
+# Registries (npm format, not Docker):
+#   dev             -> npm-dev  (therange project)
+#   preprod + prod  -> npm      (civic-meridian-130023 project, shared -
+#                      distinguished by dist-tag, same as Docker images
+#                      share one project/repo and differ only by tag)
+#
+# Versioning:
+#   dev/preprod: package.json's version + an auto-generated prerelease
+#     suffix (sha for dev, run number for preprod) - never hand-bumped,
+#     always a fresh unique version so every push/dispatch can publish.
+#   prod: publishes package.json's version AS-IS, no suffix - bump it
+#     with a real commit (e.g. `npm version minor`) before publishing to
+#     prod. This is the one deliberate, reviewable version bump; dev and
+#     preprod are disposable identifiers, prod is not.
+#
+# Triggers:
+#   Push to main       -> auto dev
+#   Manual             -> dev, preprod, or prod, any branch
+#
+# ⚠️ Setup still required (see this session's chat for the full list):
+#   - GCP Artifact Registry repos npm-dev (therange) and npm
+#     (civic-meridian-130023) must exist - see gcloud commands shared
+#     separately.
+#   - This repo's `dev` GitHub Environment has no secret overrides, so it
+#     currently falls back to the ORG default GCP_WORKLOAD_IDENTITY_PROVIDER/
+#     GCP_SERVICE_ACCOUNT (therange-scoped) - fine for dev only.
+#   - `preprod` and `prod` GitHub Environments exist (created via API) but
+#     have NO secret overrides yet - copy the same GCP_WORKLOAD_IDENTITY_PROVIDER/
+#     GCP_SERVICE_ACCOUNT values used by another v26 repo's preprod/prod
+#     environments into THIS repo's preprod/prod environments, or those
+#     jobs will authenticate with the wrong (therange) identity and fail
+#     with an IAM permission error against civic-meridian-130023.
+# ---------------------------------------------------------------
+
+name: Publish
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Target environment"
+        required: true
+        type: choice
+        options:
+          - dev
+          - preprod
+          - prod
+
+env:
+  REGION: us-central1
+
+jobs:
+  # ── Auto: dev (push to main) or Manual: dev ────────────────────
+  publish-dev:
+    name: "Auto/Manual → dev"
+    if: github.event_name == 'push' || github.event.inputs.environment == 'dev'
+    runs-on: ubuntu-latest
+    environment: dev
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Authenticate to GCP (Workload Identity — no stored keys)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Configure npm for Artifact Registry
+        run: |
+          gcloud artifacts print-settings npm \
+            --project=therange \
+            --repository=npm-dev \
+            --location=${{ env.REGION }} \
+            --scope=@radiofx > .npmrc
+
+      - name: Install
+        run: npm install
+
+      - name: Build (gulp production + babel compile)
+        run: npm run manual-build
+
+      - name: Set dev prerelease version
+        run: |
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          BASE_VERSION=$(node -p "require('./package.json').version")
+          npm version "${BASE_VERSION}-dev.${SHORT_SHA}" --no-git-tag-version --allow-same-version
+
+      - name: Publish
+        run: npm publish --tag dev
+
+  # ── Manual: preprod ─────────────────────────────────────────────
+  publish-preprod:
+    name: "Manual → preprod"
+    if: github.event.inputs.environment == 'preprod'
+    runs-on: ubuntu-latest
+    environment: preprod
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Authenticate to GCP (Workload Identity — no stored keys)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Configure npm for Artifact Registry
+        run: |
+          gcloud artifacts print-settings npm \
+            --project=civic-meridian-130023 \
+            --repository=npm \
+            --location=${{ env.REGION }} \
+            --scope=@radiofx > .npmrc
+
+      - name: Install
+        run: npm install
+
+      - name: Build (gulp production + babel compile)
+        run: npm run manual-build
+
+      - name: Set preprod prerelease version
+        run: |
+          BASE_VERSION=$(node -p "require('./package.json').version")
+          npm version "${BASE_VERSION}-preprod.${{ github.run_number }}" --no-git-tag-version --allow-same-version
+
+      - name: Publish
+        run: npm publish --tag preprod
+
+  # ── Manual: prod ────────────────────────────────────────────────
+  publish-prod:
+    name: "Manual → prod"
+    if: github.event.inputs.environment == 'prod'
+    runs-on: ubuntu-latest
+    environment: prod
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Authenticate to GCP (Workload Identity — no stored keys)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Configure npm for Artifact Registry
+        run: |
+          gcloud artifacts print-settings npm \
+            --project=civic-meridian-130023 \
+            --repository=npm \
+            --location=${{ env.REGION }} \
+            --scope=@radiofx > .npmrc
+
+      - name: Install
+        run: npm install
+
+      - name: Build (gulp production + babel compile)
+        run: npm run manual-build
+
+      # No version suffix here - publishes exactly package.json's version.
+      # Bump it with a real commit before triggering this.
+      - name: Publish
+        run: npm publish --tag latest
