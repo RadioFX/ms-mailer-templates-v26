@@ -89,10 +89,19 @@ jobs:
           node-version: "22"
 
       - name: Authenticate to GCP (Workload Identity — no stored keys)
+        id: auth
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      # auth@v2 sets up Application Default Credentials, but plain `gcloud`
+      # CLI invocations (unlike `docker`'s own credential helper, which
+      # reads ADC directly) need an explicit active account - without this,
+      # `gcloud artifacts print-settings npm` below fails with "You do not
+      # currently have an active account selected."
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
 
       - name: Configure npm for Artifact Registry
         run: |
@@ -137,10 +146,14 @@ jobs:
           node-version: "22"
 
       - name: Authenticate to GCP (Workload Identity — no stored keys)
+        id: auth
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_PREPROD }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_PREPROD }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
 
       - name: Configure npm for Artifact Registry
         run: |
@@ -184,10 +197,14 @@ jobs:
           node-version: "22"
 
       - name: Authenticate to GCP (Workload Identity — no stored keys)
+        id: auth
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_PROD }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_PROD }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
 
       - name: Configure npm for Artifact Registry
         run: |
