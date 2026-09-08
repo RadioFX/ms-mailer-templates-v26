@@ -118,7 +118,15 @@ jobs:
           npm version "${BASE_VERSION}-dev.${SHORT_SHA}" --no-git-tag-version --allow-same-version
 
       - name: Publish
-        run: npm publish --tag dev
+        run: |
+          npm publish --tag dev
+          # Also tag latest, in this registry only (npm-dev is entirely
+          # separate from preprod/prod's shared registry) - so a plain
+          # semver-range dependency resolves to something when a consumer's
+          # dev Docker build points its .npmrc at npm-dev, without every
+          # consumer needing to pin the literal "dev" dist-tag explicitly.
+          PUBLISHED_VERSION=$(node -p "require('./package.json').version")
+          npm dist-tag add "@radiofx/ms-mailer-templates-v26@${PUBLISHED_VERSION}" latest
 
   # ── Manual: preprod ─────────────────────────────────────────────
   publish-preprod:
