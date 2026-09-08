@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width"/>
+
+    <link rel="stylesheet" href="../css/ink.css" inline>
+    <link rel="stylesheet" href="../css/radiofx.css" inline>
+    <style type="text/css">
+      /* Custom styles go here */
+      .onboarding-heading {
+        font-size: 24px;
+        font-weight: bold;
+        color: rgb(0, 0, 0);
+        text-align: center;
+      }
+      .onboarding-email-note {
+        text-align: center;
+        font-size: 13px;
+        color: rgb(90, 90, 90);
+      }
+      .onboarding-signoff {
+        color: rgb(0, 0, 0);
+      }
+      .onboarding-footer {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <table class="body">
+      <tr>
+        <td class="center" align="center" valign="top">
+          <center>
+            <table class="container">
+              <tr>
+                <td>
+                  <table class="block-grid">
+                    <tr class="column">
+                      <td class="twelve">
+                        <img src="https://cdn.radiofx.co/emails/radiofx-logo-2026.png" width="307px" height="87px" class="header-padding center" />
+                      </td>
+                    </tr>
+                    <tr class="column">
+                      <td class="twelve">
+                        <p class="onboarding-heading">
+                          Welcome to the RadioFX community!
+                        </p>
+                      </td>
+                    </tr>
+                    <tr class="column">
+                      <td class="twelve">
+                        <p class="section-padding">
+                          {{#if firstName}}Hi {{ firstName }},{{else}}Hi there,{{/if}}
+                        </p>
+                        <p>
+                          You're officially subscribed - thanks for joining RadioFX! One more
+                          step before we start building and publishing your podcast app: tell
+                          us a bit about it using the short form below.
+                        </p>
+                      </td>
+                    </tr>
+                    <tr class="column">
+                      <td class="twelve">
+                        <div class="section-padding" style="text-align: center;">
+                          <a class="rfx-button" href="{{ formUrl }}">Tell Us About Your App</a>
+                        </div>
+                        <p class="onboarding-email-note">
+                          Please fill out the form using the email address you registered
+                          with{{#if email}} ({{ email }}){{/if}}, so we can match it to your account.
+                        </p>
+                      </td>
+                    </tr>
+                    <tr class="column">
+                      <td class="twelve">
+                        <p class="onboarding-signoff section-padding">
+                          Thanks!<br/>
+                          - The RadioFX Team
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <table class="block-grid">
+                    <tr class="column">
+                      <td class="twelve onboarding-footer">
+                        <img src="https://cdn.radiofx.co/emails/radiofx-logo-2026.png" width="154px" height="44px" class="header-padding center" />
+                        <p class="cappasity-subtle" style="text-align: center;">
+                          RadioFX is a trademark of RadioFX Inc.
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </center>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
