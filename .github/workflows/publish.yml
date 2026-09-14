@@ -89,18 +89,21 @@ jobs:
           node-version: "22"
 
       - name: Authenticate to GCP (Workload Identity — no stored keys)
+        id: auth
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
 
+      # google-artifactregistry-auth (not `gcloud artifacts print-settings
+      # npm`, which produced a .npmrc with no working auth token here -
+      # ENEEDAUTH at actual publish time despite succeeding itself) reads
+      # the same ADC file auth@v2 already set up directly, no gcloud CLI
+      # involved at all.
       - name: Configure npm for Artifact Registry
         run: |
-          gcloud artifacts print-settings npm \
-            --project=therange \
-            --repository=npm-dev \
-            --location=${{ env.REGION }} \
-            --scope=@radiofx > .npmrc
+          echo "@radiofx:registry=https://${{ env.REGION }}-npm.pkg.dev/therange/npm-dev/" > .npmrc
+          npx google-artifactregistry-auth --repo-config=.npmrc --credential-config=.npmrc
 
       - name: Install
         run: npm install
@@ -137,6 +140,7 @@ jobs:
           node-version: "22"
 
       - name: Authenticate to GCP (Workload Identity — no stored keys)
+        id: auth
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_PREPROD }}
@@ -144,11 +148,8 @@ jobs:
 
       - name: Configure npm for Artifact Registry
         run: |
-          gcloud artifacts print-settings npm \
-            --project=civic-meridian-130023 \
-            --repository=npm \
-            --location=${{ env.REGION }} \
-            --scope=@radiofx > .npmrc
+          echo "@radiofx:registry=https://${{ env.REGION }}-npm.pkg.dev/civic-meridian-130023/npm/" > .npmrc
+          npx google-artifactregistry-auth --repo-config=.npmrc --credential-config=.npmrc
 
       - name: Install
         run: npm install
@@ -184,6 +185,7 @@ jobs:
           node-version: "22"
 
       - name: Authenticate to GCP (Workload Identity — no stored keys)
+        id: auth
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_PROD }}
@@ -191,11 +193,8 @@ jobs:
 
       - name: Configure npm for Artifact Registry
         run: |
-          gcloud artifacts print-settings npm \
-            --project=civic-meridian-130023 \
-            --repository=npm \
-            --location=${{ env.REGION }} \
-            --scope=@radiofx > .npmrc
+          echo "@radiofx:registry=https://${{ env.REGION }}-npm.pkg.dev/civic-meridian-130023/npm/" > .npmrc
+          npx google-artifactregistry-auth --repo-config=.npmrc --credential-config=.npmrc
 
       - name: Install
         run: npm install
