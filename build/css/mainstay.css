@@ -1,0 +1,46 @@
+.header-padding {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.section-padding {
+  padding-top: 40px;
+}
+
+p {
+  font-size: 16px;
+  color: rgb(0, 0, 0);
+}
+
+.cappasity-subtle {
+  font-size: 12px;
+  color: rgb(155, 155, 155);
+}
+
+/* Amber (#EAB947) + ink (#1C1A18) - MainStay's brand palette. The dot in the
+   mark is the only place amber is ever used as a fill in the logo itself,
+   but it's the site's own --primary color everywhere else (buttons, etc) -
+   see admin-frontend-podcast-v26's use of it as the primary button color. */
+.mainstay-button {
+  background-color: rgb(234, 185, 71);
+  display: inline-block;
+  color: rgb(28, 26, 24);
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.mainstay-button:active, .mainstay-button:focus, .mainstay-button:hover, .mainstay-button:visited {
+  color: rgb(28, 26, 24) !important;
+}
+
+.mainstay-button:hover {
+  background-color: rgb(212, 166, 60);
+}
+
+address {
+  font-style: normal;
+}

@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width"/>
+
+    <link rel="stylesheet" href="../css/ink.css" inline>
+    <link rel="stylesheet" href="../css/mainstay.css" inline>
+    <style type="text/css">
+      /* Custom styles go here */
+      .activate-heading {
+        font-size: 24px;
+        font-weight: bold;
+        color: rgb(0, 0, 0);
+        text-align: center;
+      }
+      .activate-signoff {
+        color: rgb(0, 0, 0);
+      }
+      .activate-footer {
+        text-align: center;
+      }
+      .mainstay-wordmark {
+        font-family: 'Space Grotesk', Helvetica, Arial, sans-serif;
+        color: rgb(28, 26, 24);
+        letter-spacing: -0.5px;
+      }
+    </style>
+  </head>
+  <body>
+    <table class="body">
+      <tr>
+        <td class="center" align="center" valign="top">
+          <center>
+            <table class="container">
+              <tr>
+                <td>
+                  <table class="block-grid">
+                    <tr class="column">
+                      <td class="twelve header-padding">
+                        <!-- Icon + wordmark written out separately (not a
+                             baked-together logo image) so the wordmark stays
+                             real, styleable text - matches how the app itself
+                             renders its logo (see RadioFXLogo.tsx). -->
+                        <table align="center" style="margin: 0 auto;">
+                          <tr>
+                            <td valign="middle" style="vertical-align: middle; padding-right: 10px;">
+                              <img src="https://cdn.radiofx.co/emails/mainstay-mark-2026.png" width="48" height="48" alt="" class="center" style="vertical-align: middle;" />
+                            </td>
+                            <td valign="middle" style="vertical-align: middle;">
+                              <span class="mainstay-wordmark" style="font-size: 30px; vertical-align: middle;">MainStay</span>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr class="column">
+                      <td class="twelve">
+                        <p class="activate-heading">
+                          Activate your account
+                        </p>
+                      </td>
+                    </tr>
+                    <tr class="column">
+                      <td class="twelve">
+                        <p class="section-padding">
+                          {{#if firstName}}Hi {{ firstName }},{{else}}Hi there,{{/if}}
+                        </p>
+                        <p>
+                          Thanks for signing up with MainStay! You're just one step away from
+                          getting started - activate your account below to continue.
+                        </p>
+                      </td>
+                    </tr>
+                    <tr class="column">
+                      <td class="twelve">
+                        <div class="section-padding" style="text-align: center;">
+                          <a class="mainstay-button" href="{{ link }}{{ qs }}">Activate My Account Now</a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="column">
+                      <td class="twelve">
+                        <p class="activate-signoff section-padding">
+                          Thanks!<br/>
+                          - The MainStay Team
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <table class="block-grid">
+                    <tr class="column">
+                      <td class="twelve activate-footer">
+                        <table align="center" style="margin: 0 auto;">
+                          <tr>
+                            <td valign="middle" style="vertical-align: middle; padding-right: 6px;">
+                              <img src="https://cdn.radiofx.co/emails/mainstay-mark-2026.png" width="28" height="28" alt="" class="center" style="vertical-align: middle;" />
+                            </td>
+                            <td valign="middle" style="vertical-align: middle;">
+                              <span class="mainstay-wordmark" style="font-size: 18px; vertical-align: middle;">MainStay</span>
+                            </td>
+                          </tr>
+                        </table>
+                        <p class="cappasity-subtle" style="text-align: center;">
+                          MainStay is a trademark of RadioFX Inc.
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </center>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
