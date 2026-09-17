@@ -117,6 +117,20 @@ jobs:
           BASE_VERSION=$(node -p "require('./package.json').version")
           npm version "${BASE_VERSION}-dev.${SHORT_SHA}" --no-git-tag-version --allow-same-version
 
+      # Belt-and-suspenders alongside package.json's "files" allowlist -
+      # google-github-actions/auth@v2 writes its exported ADC file into
+      # this exact checkout directory (gha-creds-<hash>.json), and until
+      # 2026-09-17 nothing excluded it from what npm publish packs (no
+      # .npmignore, no "files" field) - it landed in the published tarball
+      # itself, containing this job's live Workload Identity credential.
+      # Confirmed via a real published tarball's own "Tarball Contents"
+      # listing. The "files" allowlist is the actual fix (npm ignores
+      # this cleanup step's target if it's not allowlisted anyway); this
+      # step stays as a second, independent guard in case that allowlist
+      # is ever loosened later.
+      - name: Remove exported GCP credentials before publishing
+        run: rm -f gha-creds-*.json
+
       - name: Publish
         run: npm publish --tag dev
 
@@ -162,6 +176,10 @@ jobs:
           BASE_VERSION=$(node -p "require('./package.json').version")
           npm version "${BASE_VERSION}-preprod.${{ github.run_number }}" --no-git-tag-version --allow-same-version
 
+      # See the identical step in publish-dev for why.
+      - name: Remove exported GCP credentials before publishing
+        run: rm -f gha-creds-*.json
+
       - name: Publish
         run: npm publish --tag preprod
 
@@ -201,6 +219,10 @@ jobs:
 
       - name: Build (gulp production + babel compile)
         run: npm run manual-build
+
+      # See publish-dev's identical step for why.
+      - name: Remove exported GCP credentials before publishing
+        run: rm -f gha-creds-*.json
 
       # No version suffix here - publishes exactly package.json's version.
       # Bump it with a real commit before triggering this.

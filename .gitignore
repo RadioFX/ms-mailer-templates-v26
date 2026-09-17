@@ -37,6 +37,12 @@ tmp
 # editors
 .idea/
 
+# google-github-actions/auth@v2's exported Application Default Credentials
+# file - written into the repo checkout during CI, must never be committed
+# (and is separately excluded from what npm publish packs - see
+# package.json's "files" field and publish.yml's cleanup step).
+gha-creds-*.json
+
 # lockfiles from other package managers (yarn.lock intentionally not carried
 # over from the old repo; npm is the package manager used here)
 
