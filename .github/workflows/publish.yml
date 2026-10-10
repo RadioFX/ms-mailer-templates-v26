@@ -24,6 +24,10 @@
 #
 # Triggers:
 #   Push to main       -> auto dev
+#   Push to release     -> auto prod (merging main into release, or
+#                          fast-forwarding it, is the only way prod ever
+#                          publishes - same convention every other v26
+#                          repo's deploy.yml uses)
 #   Manual             -> dev, preprod, or prod, any branch
 #
 # Auth secrets are ORG-level (All repositories), same as every other v26
@@ -53,6 +57,7 @@ on:
   push:
     branches:
       - main
+      - release
 
   workflow_dispatch:
     inputs:
@@ -72,7 +77,7 @@ jobs:
   # ── Auto: dev (push to main) or Manual: dev ────────────────────
   publish-dev:
     name: "Auto/Manual → dev"
-    if: github.event_name == 'push' || github.event.inputs.environment == 'dev'
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event.inputs.environment == 'dev'
     runs-on: ubuntu-latest
     environment: dev
     permissions:
@@ -183,10 +188,10 @@ jobs:
       - name: Publish
         run: npm publish --tag preprod
 
-  # ── Manual: prod ────────────────────────────────────────────────
+  # ── Auto: prod (push to release) or Manual: prod ────────────────
   publish-prod:
-    name: "Manual → prod"
-    if: github.event.inputs.environment == 'prod'
+    name: "Auto/Manual → prod"
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/release') || github.event.inputs.environment == 'prod'
     runs-on: ubuntu-latest
     environment: prod
     permissions:
